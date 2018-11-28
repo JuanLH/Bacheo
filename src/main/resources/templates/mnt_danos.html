@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="layout/main :: head"></head>
+	
+	<body>
+		<header th:replace="layout/main :: header"></header>
+		
+		<div class="container">
+		
+			<div class="card text-white bg-dark mb-3 content text-center">
+				<div class="card-header font">Registrar Da&ntilde;o por Baches</div>
+				<div class="card-body">
+				
+					<form th:action="@{/mnt_danos/guardar_dano}" th:object="${dano}" method="post">
+					
+					
+						<div class="form-row">	
+							
+							<div class="form-group col-md-12 ">	
+								<label>Descripcion del da&ntilde;o</label>
+	    						<textarea  th:field="*{descripcion}" type="text" class="form-control " id="descripcion" rows="2"></textarea>
+	    					</div>
+	    				</div>
+	    				<div class="form-row">	
+		    				<div class="form-group col-md-4 ">			
+	    						<label>Nombre de Ciudadano</label>
+	    						<input  th:field="*{nombre_ciudadano}" type="text" class="form-control" id="nombre"/>
+	    					</div>
+	    					
+	    					<div class="form-group col-md-4 ">			
+	    						<label>Cedula</label>
+	    						<input  th:field="*{cedula}" type="text" class="form-control" id="cedula"/>
+	    					</div>	
+	    					
+	    					<div class="form-group col-md-4 ">			
+	    						<label>Telefono</label>
+	    						<input  th:field="*{telefono}" type="text" class="form-control" id="telefono"/>
+	    					</div>	
+	    						
+						</div>
+						
+						<div class="form-row">
+						
+							<div class="form-group col-md-4 ">		
+								<label>Gasto Total</label>
+		    					<input  th:field="*{gasto}" type="text" class="form-control" id="telefono"/>
+		    				</div>	
+		    				
+		    				<div class="form-group col-md-8 ">		
+								<label>Bache Seleccionado</label>
+		    					<input type="text" class="form-control" id="bache_sel"/>
+		    				</div>
+		    				
+						</div>
+						
+						<input th:field="*{id_bache}" id="idBache" name="idBache" type="hidden" >
+						
+						<div class="form-row table-wrapper-scroll-y">	
+							<table id="table" class=" table table-bordered table-hover table-striped  table-sm ">
+							  <thead class="thead-light">
+							    <tr>
+							      <th scope="col">Id Bache</th>
+							      <th scope="col">Registro</th>
+							      <th scope="col">Direccion</th>
+							      <th scope="col">Tipo</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							  
+							  	<tr th:each="bache : ${BachesxReparar}">
+							  		<td th:text="${bache.id}">1</td>
+							  		<td th:text="${bache.fecha_registro}">2014-25-58</td>
+							  		<td th:text="${bache.toString()}"></td>
+							  		<td th:text="${bache.id_tipo_bache}">4</td>
+							  	</tr>
+							 
+							  </tbody>
+							</table>
+						</div>
+						<button type="submit" class="btn btn-primary">Salvar</button>
+					</form>
+				
+				</div>
+			</div>	
+			
+		</div>
+		<footer th:replace="layout/main :: footer"></footer>
+		
+		<script type="text/javascript">
+			var table = document.getElementById('table'),rIndex;
+			
+			for(var i =0; i< table.rows.length; i++){
+				table.rows[i].onclick = function(){
+					rIndex = this.rowIndex;
+					console.log(rIndex);
+					document.getElementById("idBache").value = this.cells[0].innerHTML;
+					document.getElementById("bache_sel").value = this.cells[2].innerHTML;
+				};
+			}
+		</script>
+	</body>
+</html>	

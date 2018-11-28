@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title th:text="'Online Data - ' + ${titulo}"></title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/my-styles.css}" />
+
+</head>
+<body>
+	<header> </header>
+	<div class="container">
+		
+
+		<div class="card text-white bg-dark mb-3 content ">
+			<div class="card-header font">Municipios</div>
+			<div class="card-body">
+
+				<table>
+					<span th:each="Mun : ${muniList}">
+						<h3 th:text="${Mun.getNombre()}"></h3>
+					</span>
+				</table>
+
+			</div>
+
+
+		</div>
+	</div>
+	<footer> </footer>
+</body>

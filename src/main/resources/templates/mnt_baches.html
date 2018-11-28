@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="layout/main :: head"></head>
+	
+	<body>
+		<header th:replace="layout/main :: header"></header>
+		
+		<div class="container">
+		<!--Main container-->
+		
+			<div class="card text-white bg-dark mb-3 content text-center">
+				<div class="card-header font">Registrar Bache</div>
+				<div class="card-body">
+				
+					<form th:action="@{/mnt_baches/guardar_bache}" th:object="${bache}" method="post" enctype="multipart/form-data">
+					
+						<div class="form-row">
+						
+							<div class="form-group col-md-4 ">
+								<label class="" for="inlineFormCustomSelect">Municipio</label> 
+									<select  class="form-control" id="ComboBoxMunicipio">
+										<option th:each="municipio :${Municipios}"
+											th:value="${municipio.getId()}"
+											th:text="${municipio.getNombre()}">
+										</option>
+									</select>
+
+							</div>
+							
+							<div class="form-group col-md-4 ">
+								<label class="" for="inlineFormCustomSelect">Sector</label> 
+									<select  class="form-control" id="ComboBoxSector">
+										<option th:each="sector :${Sectores}"
+											th:value="${sector.getId()}"
+											th:text="${sector.getNombre()}">
+										</option>
+									</select>
+
+							</div>
+							
+							<div class="form-group col-md-4 ">
+								<label class="" for="inlineFormCustomSelect">Segmento</label> 
+									<select th:field="*{id_segmento}" class="form-control" id="ComboBoxSegmento">
+										<option th:each="segmento :${Segmentos}"
+											th:value="${segmento.getId()}"
+											th:text="${segmento.getDescripcion()}">
+										</option>
+									</select>
+
+							</div>
+						</div>
+						
+						<div class="form-row">
+						
+							<div class="form-group col-md-4 ">
+								<label class="" for="inlineFormCustomSelect">Tipo de Bache</label> 
+								<select th:field="*{id_tipo_bache}" class="form-control" id="ComboBoxTipoBache">
+									<option th:each="tipobache :${TiposBache}"
+										th:value="${tipobache.getId()}"
+										th:text="${tipobache.getNombre()}">
+									</option>
+								</select>
+
+							</div>
+							
+							<div class="form-group col-md-4 ">
+								<label class="" for="inlineFormCustomSelect">Causa tapones</label> 
+								<select th:field="*{entaponamiento}"  class="form-control" id="ComboBoxTapones">
+									<option value="true" text="SI">SI</option>
+									<option value="false" text="NO">NO</option>
+								</select>
+
+							</div>
+							
+							<div class="form-group col-md-4 ">
+								<label for="exampleInputEmail1">N. Servicios Afectados</label>
+    							<input th:field="*{cant_servicios_afec}" type="text" class="form-control" id="TextFieldServicios" aria-describedby="emailHelp" placeholder="Cantidad de Servicios Afectados">
+							</div>
+							
+						</div>
+						
+						<div class="form-row">
+						
+							<label for="file" class="col-sm-2 col-form-label">foto</label>
+							<div class="col-sm-6">
+								<input type="file" name="file" class="form-control"/>
+							</div>
+						
+						</div>
+						<button type="submit" class="btn btn-primary">Salvar</button>
+					</form>
+				</div>
+					
+			</div>
+		</div>
+		<footer th:replace="layout/main :: footer"></footer>
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('#ComboBoxMunicipio').on('change',function(){
+					var municipioId = $('#ComboBoxMunicipio option:selected').val();
+					$.ajax({
+						type:'GET',
+						url: '/api/getSectores/'+ municipioId,
+						success: function(result){
+							var result = JSON.parse(result);
+							var s = '';
+							for(var i = 0; i<result.length; i++){
+								s+='<option value="' +result[i].id+ '">' +result[i].nombre+ '</option>';
+							}
+							$('#ComboBoxSector').html(s);
+						},
+						error: function(data) {
+			                alert(data);
+			            }
+					});
+				});
+			});
+		</script>
+		
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('#ComboBoxSector').on('change',function(){
+					var sectorId = $('#ComboBoxSector option:selected').val();
+					$.ajax({
+						type:'GET',
+						url: '/api/getSegmentos/'+ sectorId,
+						success: function(result){
+							var result = JSON.parse(result);
+							var s = '';
+							for(var i = 0; i<result.length; i++){
+								s+='<option value="' +result[i].id+ '">' +result[i].descripcion+ '</option>';
+							}
+							$('#ComboBoxSegmento').html(s);
+						},
+						error: function(data) {
+			                alert(data);
+			            }
+					});
+				});
+			});
+		</script>
+	</body>	
+</html>	
