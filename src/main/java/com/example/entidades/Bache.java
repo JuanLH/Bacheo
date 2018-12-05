@@ -21,6 +21,7 @@ public class Bache {
 	private String  photo_name;
 	private Date fecha_registro,fecha_reparacion;
 	private float puntaje;
+	private int peligrosidad,tam_bache;
 	
 	
 	
@@ -78,10 +79,23 @@ public class Bache {
 	public void setPuntaje(float puntaje) {
 		this.puntaje = puntaje;
 	}
+	public int getPeligrosidad() {
+		return peligrosidad;
+	}
+	public void setPeligrosidad(int peligrosidad) {
+		this.peligrosidad = peligrosidad;
+	}
+	public int getTam_bache() {
+		return tam_bache;
+	}
+	public void setTam_bache(int tam_bache) {
+		this.tam_bache = tam_bache;
+	}
+	
 	
 	public static void insert(Bache bache) throws SQLException {
 		Db dbase = Utilities.getConection();
-		String sql ="INSERT INTO public.baches(fecha_registro, id_segmento, entaponamiento, cant_servicios_afec, id_tipo_bache) VALUES (?, ?, ?, ?, ?);";
+		String sql ="INSERT INTO public.baches(fecha_registro, id_segmento, entaponamiento, cant_servicios_afec, id_tipo_bache, peligrosidad, tam_bache,reparado) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 		
 		PreparedStatement p = dbase.getConnection().prepareStatement(sql);
 		p.setDate(1, Utilities.convertUtilToSql(new java.util.Date()));
@@ -89,6 +103,10 @@ public class Bache {
 		p.setBoolean(3, bache.isEntaponamiento());
 		p.setInt(4, bache.getCant_servicios_afec());
 		p.setInt(5, bache.getId_tipo_bache());
+		p.setInt(6, bache.getPeligrosidad());
+		p.setInt(7, bache.getTam_bache());
+		p.setBoolean(8, false);
+		
 		p.execute();
 		dbase.CerrarConexion();	
 	}
