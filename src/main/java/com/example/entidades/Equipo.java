@@ -50,7 +50,7 @@ public class Equipo {
 			id_recurso = -1;// Esto es para que notifique cuando se acaban los recursos
 		}
 		
-		dbase.CerrarConexion();
+		//dbase.CerrarConexion();
 		return id_recurso;
 		
 	}
@@ -62,10 +62,10 @@ public class Equipo {
 		dbase.CerrarConexion();
 	}
 	
-	public static void setEquiposDisponibles() throws SQLException {
+	public static void setEquiposDisponibles(int id_recurso) throws SQLException {
 		//pone los equipos disponible para el proximo dia
 		Db dbase = Utilities.getConection();
-		String sql = "UPDATE public.equipos SET id_estado=1;";
+		String sql = "UPDATE public.equipos SET id_estado=1 WHERE id="+id_recurso+";";
 		dbase.executeQuery(sql);
 		dbase.CerrarConexion();
 	}

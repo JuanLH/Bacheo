@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.entidades.Asignacion;
+import com.example.entidades.Bache;
 import com.example.entidades.Sector;
 import com.example.entidades.Segmento;
 import com.google.gson.Gson;
@@ -41,4 +43,19 @@ public class ApiController {
 			return "error";
 		}
 	}
+	
+	@RequestMapping(value = "/api/test/", method = RequestMethod.GET)
+	@ResponseBody
+	public String getTest() {
+		Gson gson = new Gson();
+		String json = "";
+		try {
+			 json = gson.toJson(Asignacion.asignarBrigadas(Bache.getBaches_Puntuacion()));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return json;
+	}
+	
 }

@@ -114,9 +114,9 @@ public class Bache {
 	public static ArrayList<Bache> getBachesPorReparar() throws SQLException{
 		Db dbase = Utilities.getConection();
 		ArrayList<Bache> list = new ArrayList<>();
-		String query = "SELECT id, fecha_registro, id_segmento, entaponamiento, "
-				+ "cant_servicios_afec, id_tipo_bache, photo_name "
-				+ "FROM public.baches where fecha_reparacion is  null;";
+		String query = "SELECT id, fecha_registro, id_segmento, entaponamiento, cant_servicios_afec, \r\n" + 
+				"        id_tipo_bache, photo_name, peligrosidad, tam_bache\r\n" + 
+				"  FROM public.baches where fecha_reparacion is null;";
 		ResultSet rs = dbase.execSelect(query);
 		while(rs.next()) {
 			Bache b = new Bache();
@@ -128,6 +128,8 @@ public class Bache {
 			b.setFecha_reparacion(null);
 			b.setId_tipo_bache(rs.getInt(6));
 			b.setPhoto_name(rs.getString(7));
+			b.setPeligrosidad(rs.getInt(8));
+			b.setTam_bache(rs.getInt(9));
 			list.add(b);
 		}
 		dbase.CerrarConexion();
@@ -137,9 +139,9 @@ public class Bache {
 	public  static ArrayList<Bache> getBaches_Puntuacion() throws SQLException{
 		Db dbase = Utilities.getConection();
 		ArrayList<Bache> list = new ArrayList<>();
-		String query = "SELECT id, fecha_registro, id_segmento, entaponamiento, "
-				+ "cant_servicios_afec, id_tipo_bache, photo_name "
-				+ "FROM public.baches where fecha_reparacion is  null;";
+		String query = "SELECT id, fecha_registro, id_segmento, entaponamiento, cant_servicios_afec, \r\n" + 
+				"        id_tipo_bache, photo_name, peligrosidad, tam_bache\r\n" + 
+				"  FROM public.baches where fecha_reparacion is null;";
 		ResultSet rs = dbase.execSelect(query);
 		while(rs.next()) {
 			Bache b = new Bache();
@@ -151,6 +153,8 @@ public class Bache {
 			b.setFecha_reparacion(null);
 			b.setId_tipo_bache(rs.getInt(6));
 			b.setPhoto_name(rs.getString(7));
+			b.setPeligrosidad(rs.getInt(8));
+			b.setTam_bache(rs.getInt(9));
 			b.setPuntaje(calcularPuntaje(b.getId(),dbase));
 			list.add(b);
 		}
@@ -214,6 +218,7 @@ public class Bache {
 	
 	public static Bache getBache(int id_bache,Db dbase) throws SQLException {
 		Bache bache = new Bache();
+		dbase = Utilities.getConection();
 		String query = "select fecha_registro,id_segmento,entaponamiento,cant_servicios_afec,fecha_reparacion,id_tipo_bache,photo_name \r\n" + 
 				"from baches where id ="+id_bache;
 		ResultSet rs = dbase.execSelect(query);
@@ -231,7 +236,7 @@ public class Bache {
 		return bache;
 	}
 	
-	public static float calcularPuntaje(int id_bache,Db dbase) throws SQLException {
+	public static float calcularPuntaje(int id_bache,Db dbase) throws SQLException {//Sumarle la peligrosidad
 		float puntaje = 0.0f;
 		
 		String query = "select mun.puntaje,sec.puntaje,seg.puntaje,tma.puntaje,cal.puntaje,tca.puntaje,tba.puntaje from Municipios as mun \r\n" + 

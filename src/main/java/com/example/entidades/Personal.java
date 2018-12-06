@@ -76,7 +76,7 @@ public class Personal {
 		else {
 			id_recurso = -1;// Esto es para que notifique cuando se acaban los recursos
 		}
-		dbase.CerrarConexion();
+		//dbase.CerrarConexion();
 		return id_recurso;
 	}
 	
@@ -101,10 +101,10 @@ public class Personal {
 		dbase.CerrarConexion();
 	}
 	
-	public static void setPersonalDisponible() throws SQLException {
+	public static void setPersonalDisponible(int id_recurso) throws SQLException {
 		//pone el personal disponible para el proximo dia
 		Db dbase = Utilities.getConection();
-		String sql = "UPDATE public.personal SET id_estado=4;";
+		String sql = "UPDATE public.personal SET id_estado=4 WHERE id = "+id_recurso+";";
 		dbase.executeQuery(sql);
 		dbase.CerrarConexion();
 	}
