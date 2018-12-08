@@ -65,12 +65,12 @@ public class RecursosBrigada {
 		return recursos;
 	}
 	
-	public static void borrarRecursos(ArrayList<RecursosBrigada> recursos,Db dbase) throws SQLException {
-		dbase = Utilities.getConection();
-		for(RecursosBrigada rec : recursos) {
-			String borrar = "DELETE FROM public.recursos_brigada WHERE id = "+rec.getId()+";";
+	public static void borrarRecursos(int id_brigada,Db dbase) throws SQLException {
+		//dbase = Utilities.getConection();
+		//for(RecursosBrigada rec : recursos) {
+			String borrar = "DELETE FROM public.recursos_brigada WHERE id_brigada = "+id_brigada+";";
 			dbase.executeQuery(borrar);
-		}
+		//}
 		//dbase.CerrarConexion();
 	}
 	

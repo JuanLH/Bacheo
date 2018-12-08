@@ -23,9 +23,9 @@ public class TipoBrigada {
 		this.tipo = tipo;
 	}
 	
-	public static String getTipo(int id_tipo) throws SQLException {
+	public static String getTipo(int id_tipo,Db dbase) throws SQLException {
 		String tipo="Null";
-		Db dbase = Utilities.getConection();
+		//Db dbase = Utilities.getConection();
 		String query = "SELECT tipo FROM public.tipo_brigada where id = "+id_tipo+";";
 		ResultSet rs = dbase.execSelect(query);
 		
@@ -33,7 +33,7 @@ public class TipoBrigada {
 			tipo = rs.getString(1);
 		}
 		
-		dbase.CerrarConexion();
+		//dbase.CerrarConexion();
 		return tipo;
 	}
 	

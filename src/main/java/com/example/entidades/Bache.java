@@ -22,7 +22,7 @@ public class Bache {
 	private Date fecha_registro,fecha_reparacion;
 	private float puntaje;
 	private int peligrosidad,tam_bache;
-	
+	private static Db dbase=null;
 	
 	
 	public int getId() {
@@ -95,7 +95,7 @@ public class Bache {
 	
 	public static void insert(Bache bache) throws SQLException {
 		Db dbase = Utilities.getConection();
-		String sql ="INSERT INTO public.baches(fecha_registro, id_segmento, entaponamiento, cant_servicios_afec, id_tipo_bache, peligrosidad, tam_bache,reparado) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+		String sql ="INSERT INTO public.baches(fecha_registro, id_segmento, entaponamiento, cant_servicios_afec, id_tipo_bache, peligrosidad, tam_bache) VALUES (?, ?, ?, ?, ?, ?, ?);";
 		
 		PreparedStatement p = dbase.getConnection().prepareStatement(sql);
 		p.setDate(1, Utilities.convertUtilToSql(new java.util.Date()));
@@ -105,7 +105,6 @@ public class Bache {
 		p.setInt(5, bache.getId_tipo_bache());
 		p.setInt(6, bache.getPeligrosidad());
 		p.setInt(7, bache.getTam_bache());
-		p.setBoolean(8, false);
 		
 		p.execute();
 		dbase.CerrarConexion();	
@@ -194,32 +193,45 @@ public class Bache {
 		dbase.CerrarConexion();
 	}
 	
-	public String toString() {
-		/*
-		 * 
-		 * Select mun.nombre ,sec.nombre, cal.nombre,seg.descripcion   from segmentos  as seg
-			inner join calles as cal on seg.id_calle = cal.id
-			inner join sectores as sec on seg.id_sector = sec.id
-			inner join municipios as mun on sec.id_municipio = mun.id
-			where seg.id = ?;
-
-		 * */
+	public String getTipo() {
+		String sql = "SELECT nombre\r\n" + 
+				"  FROM public.tipo_bache where id="+id_tipo_bache+";";
 		try {
-			
-			return " "+Segmento.getSegmento(id_segmento).getDescripcion();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.err.println("--------------------------------------------------*-*-*-*-*-*-");
-			return "error"; 
-				
+			ResultSet rs = dbase.execSelect(sql);
+			if(rs.next()) {
+				return rs.getString(1);
+			}
 		}
-		
+		catch(SQLException ex) {
+			System.err.println("Error en descripcion del tipo de bache");
+		}
+		return "Bache";
 	}
+	
+	public String toString() {
+		dbase = Utilities.getConection();
+		String sql = "Select mun.nombre ,sec.nombre, cal.nombre,seg.descripcion   from segmentos  as seg\r\n" + 
+				"			inner join calles as cal on seg.id_calle = cal.id\r\n" + 
+				"			inner join sectores as sec on seg.id_sector = sec.id\r\n" + 
+				"			inner join municipios as mun on sec.id_municipio = mun.id\r\n" + 
+				"			where seg.id = "+id_segmento+";";
+		try {
+			ResultSet rs = dbase.execSelect(sql);
+			if(rs.next()) {
+				return ""+rs.getString(1)+" "+rs.getString(2)+" "+rs.getString(3)+" "+rs.getString(4);
+			}
+		}
+		catch(SQLException ex) {
+			System.err.println("Error en descripcion del bache");
+		}
+		return "Calle"; 
+	}
+
 	
 	public static Bache getBache(int id_bache,Db dbase) throws SQLException {
 		Bache bache = new Bache();
-		dbase = Utilities.getConection();
-		String query = "select fecha_registro,id_segmento,entaponamiento,cant_servicios_afec,fecha_reparacion,id_tipo_bache,photo_name \r\n" + 
+		//dbase = Utilities.getConection();
+		String query = "select fecha_registro,id_segmento,entaponamiento,cant_servicios_afec,fecha_reparacion,id_tipo_bache,photo_name, peligrosidad, tam_bache \r\n" + 
 				"from baches where id ="+id_bache;
 		ResultSet rs = dbase.execSelect(query);
 		if(rs.next()) {
@@ -231,6 +243,8 @@ public class Bache {
 			bache.setFecha_reparacion(rs.getDate(5));
 			bache.setId_tipo_bache(rs.getInt(6));
 			bache.setPhoto_name(rs.getString(7));
+			bache.setPeligrosidad(rs.getInt(8));
+			bache.setTam_bache(rs.getInt(9));
 		}
 		
 		return bache;

@@ -1,15 +1,21 @@
 package com.example.clases;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import com.example.database.Db;
 
 public class Utilities {
 	private static Connection cnn = null;
-	
+	private static Db dbase = null; 
 	public static Db getConection(){
-        Db dbase = new Db("Bacheo","postgres","letmein");
+        dbase = new Db(true,"Bacheo","postgres","letmein");
         cnn = dbase.getConnection();
+        return dbase;
+    }
+	
+	public static Db getTransConection(){
+        Db dbase = new Db(false,"Bacheo","postgres","letmein");
         return dbase;
     }
 	

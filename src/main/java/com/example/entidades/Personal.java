@@ -1,5 +1,6 @@
 package com.example.entidades;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -61,9 +62,10 @@ public class Personal {
 		this.sexo = sexo;
 	}
 	
-	public static int getPersonal(String ocupacion) throws SQLException {
+	public static int getPersonal(String ocupacion,Db dbase) throws SQLException {
 		int id_recurso=0;
-		Db dbase = Utilities.getConection();
+		//dbase = Utilities.getConection();
+		
 		String query ="SELECT p.id FROM public.personal as p inner join ocupacion as o\r\n" + 
 				"  on p.id_ocupacion = o.id\r\n" + 
 				"  where o.nombre = '"+ocupacion+"'\r\n" + 
@@ -71,7 +73,7 @@ public class Personal {
 		ResultSet rs = dbase.execSelect(query);
 		if(rs.next()) {
 			id_recurso = rs.getInt(1);
-			setPersonalEnBrigada(id_recurso);
+			setPersonalEnBrigada(id_recurso,dbase);
 		}
 		else {
 			id_recurso = -1;// Esto es para que notifique cuando se acaban los recursos
@@ -80,33 +82,35 @@ public class Personal {
 		return id_recurso;
 	}
 	
-	public static String getPersonalNombre(int idRecurso) throws SQLException {
+	public static String getPersonalNombre(int idRecurso,Db dbase) throws SQLException {
 		String  nombre=null;
-		Db dbase = Utilities.getConection();
+		//dbase = Utilities.getConection();
 		String query ="SELECT nombre FROM public.personal where id = "+idRecurso+";";
 		ResultSet rs = dbase.execSelect(query);
 		if(rs.next()) {
 			nombre = rs.getString(1);
 		}
 		
-		dbase.CerrarConexion();
+		//dbase.CerrarConexion();
 		//si tira null hay algo mal
 		return nombre;
 	}
 	
-	private static void setPersonalEnBrigada(int id_recurso) throws SQLException {
-		Db dbase = Utilities.getConection();
+	private static void setPersonalEnBrigada(int id_recurso,Db dbase) throws SQLException {
+		//Db dbase = Utilities.getConection();
 		String sql = "UPDATE public.personal SET id_estado=5 WHERE id = "+id_recurso+";";
 		dbase.executeQuery(sql);
-		dbase.CerrarConexion();
+		//dbase.CerrarConexion();
+		
 	}
 	
-	public static void setPersonalDisponible(int id_recurso) throws SQLException {
+	public static void setPersonalDisponible(int id_recurso,Db dbase) throws SQLException {
 		//pone el personal disponible para el proximo dia
-		Db dbase = Utilities.getConection();
+		//dbase = Utilities.getConection();
 		String sql = "UPDATE public.personal SET id_estado=4 WHERE id = "+id_recurso+";";
 		dbase.executeQuery(sql);
-		dbase.CerrarConexion();
+		System.out.println("Se actualizo a disponible el personal "+id_recurso);
+		//dbase.CerrarConexion();
 	}
 	
 }

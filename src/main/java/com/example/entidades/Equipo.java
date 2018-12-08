@@ -35,16 +35,17 @@ public class Equipo {
 		this.descripcion = descripcion;
 	}
 	
-	public static int getEquipo(String descripcion) throws SQLException{
+	public static int getEquipo(String descripcion,Db dbase) throws SQLException{
 		int id_recurso = 0;
-		Db dbase = Utilities.getConection();
+		//dbase = Utilities.getConection();
 		String query = "SELECT id \r\n" + 
 				"  FROM public.equipos where descripcion = '"+descripcion+"' "
 						+ "and id_estado = 1 limit 1;";
+		System.err.println(query);
 		ResultSet rs = dbase.execSelect(query);
 		if(rs.next()) {
 			id_recurso = rs.getInt(1);
-			setEquiposEnBrigada(id_recurso);
+			setEquiposEnBrigada(id_recurso,dbase);
 		}
 		else {
 			id_recurso = -1;// Esto es para que notifique cuando se acaban los recursos
@@ -55,19 +56,20 @@ public class Equipo {
 		
 	}
 	
-	private static void setEquiposEnBrigada(int id_recurso) throws SQLException {
-		Db dbase = Utilities.getConection();
+	private static void setEquiposEnBrigada(int id_recurso,Db dbase) throws SQLException {
+		//Db dbase = Utilities.getConection();
 		String sql = "UPDATE public.equipos SET id_estado=2 WHERE id="+id_recurso+" ;";
 		dbase.executeQuery(sql);
-		dbase.CerrarConexion();
+		//dbase.CerrarConexion();
 	}
 	
-	public static void setEquiposDisponibles(int id_recurso) throws SQLException {
+	public static void setEquiposDisponibles(int id_recurso,Db dbase) throws SQLException {
 		//pone los equipos disponible para el proximo dia
-		Db dbase = Utilities.getConection();
+		//dbase = Utilities.getConection();
 		String sql = "UPDATE public.equipos SET id_estado=1 WHERE id="+id_recurso+";";
 		dbase.executeQuery(sql);
-		dbase.CerrarConexion();
+		System.out.println("Se actualizo a disponible  el equipo "+id_recurso);
+		//dbase.CerrarConexion();
 	}
 	
 }

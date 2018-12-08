@@ -11,15 +11,16 @@ import java.util.logging.Logger;
 public class Db {
 	public static Connection connection = null;
 	
-	  public Db(String db,String user,String pass)   {
+	  public Db(boolean autoCommit,String db,String user,String pass)   {
 	        String url = "jdbc:postgresql://localhost:5434/"+db;
 	        
 	        try { 
 	            Class.forName("org.postgresql.Driver");
 	            connection=DriverManager.getConnection(url,user,pass);
+	            connection.setAutoCommit(autoCommit);
 	        } catch (SQLException exc){
 	            //throw new SQLException(exc);
-	            System.err.println("** Error de Base de datos **\n"+exc.getMessage());
+	            System.err.println("** Error de Base de datos 2**\n"+exc.getMessage());
 	        } catch (ClassNotFoundException ex) {
 	            Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
 	        }

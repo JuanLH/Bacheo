@@ -28,8 +28,8 @@
 					  	<tr th:each="bache : ${BachesxReparar}">
 					  		<td th:text="${bache.id}">1</td>
 					  		<td th:text="${bache.fecha_registro}">2014-25-58</td>
-					  		<td th:text="${bache.toString()}"></td>
-					  		<td th:text="${bache.id_tipo_bache}">4</td>
+					  		<td th:text="${bache}"></td>
+					  		<td th:text="${bache.getTipo()}">4</td>
 					  		<td th:text="${bache.getPuntaje()}">52.2</td>
 					  	</tr>
 					 

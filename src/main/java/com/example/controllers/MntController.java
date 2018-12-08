@@ -129,7 +129,7 @@ public class MntController {
 		Bache bache = new Bache();
 		
 		model.addAttribute("titulo","Proceso de Asignacion de Baches");
-		
+		model.addAttribute("Con", Utilities.getConection());
 		try {
 			model.addAttribute("BachesxReparar",Bache.getBaches_Puntuacion());
 		} catch (SQLException e) {

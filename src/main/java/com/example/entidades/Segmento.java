@@ -87,7 +87,7 @@ public class Segmento {
 		s.setId_tipo_material(rs.getInt(4));
 		s.setDescripcion(Calle.getNombreCalle(s.getId_calle(),dbase)+" "+rs.getString(5));
 	
-		dbase.CerrarConexion();
+		//dbase.CerrarConexion();
 		return s;
 	}
 }
