@@ -96,12 +96,12 @@
 			
 			function getRecursos(id){
 				var nombreB = document.getElementById(id);
-				alert(nombreB.innerHTML);//Obtengo el nombre del card que es un div
+				//alert(nombreB.innerHTML);//Obtengo el nombre del card que es un div
 				$.ajax({
 					type:'GET',
 					url: '/api/getEquipos/'+ nombreB.innerHTML,
 					success: function(result){
-						alert(result);
+						//alert(result);
 						var result = JSON.parse(result);
 						var s = '';
 						for(var i = 0; i<result.length; i++){
@@ -111,6 +111,25 @@
 							s+= '</tr>';
 						}
 						$('#tbody-equipo').html(s);
+					},
+					error: function(data) {
+		                alert(data);
+		            }
+				});
+				$.ajax({
+					type:'GET',
+					url: '/api/getPersonal/'+ nombreB.innerHTML,
+					success: function(result){
+						//alert(result);
+						var result = JSON.parse(result);
+						var s = '';
+						for(var i = 0; i<result.length; i++){
+							s+= '<tr>';
+							s+= '<td>'+result[i].ocupacion+'</td>';
+							s+= '<td>'+result[i].nombre+'</td>';
+							s+= '</tr>';
+						}
+						$('#tbody-personal').html(s);
 					},
 					error: function(data) {
 		                alert(data);

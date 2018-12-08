@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.entidades.Asignacion;
 import com.example.entidades.Bache;
 import com.example.entidades.Equipo;
+import com.example.entidades.Personal;
 import com.example.entidades.Sector;
 import com.example.entidades.Segmento;
 import com.google.gson.Gson;
@@ -51,6 +52,19 @@ public class ApiController {
 		Gson json = new Gson();
 		try {
 			return json.toJson(Equipo.getEquiposEnBrigada(nombreBri));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "error";
+	}
+	
+	@RequestMapping(value = "/api/getPersonal/{nombre_brigada}", method = RequestMethod.GET)
+	@ResponseBody
+	public String getPersonal(@PathVariable("nombre_brigada") String nombreBri) {
+		Gson json = new Gson();
+		try {
+			return json.toJson(Personal.getPersonalEnBrigada(nombreBri));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

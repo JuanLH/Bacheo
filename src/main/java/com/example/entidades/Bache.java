@@ -286,7 +286,6 @@ public class Bache {
 		
 		puntaje += bache.getCant_servicios_afec()*7.0;
 		
-		
 		Interval interval = new Interval(bache.getFecha_registro().getTime(), new Date().getTime());
 		long days = interval.toDuration().getStandardDays();
 		puntaje += days *5.5; 
@@ -295,7 +294,7 @@ public class Bache {
 		
 		
 		return puntaje;
-		
+		  
 	}
 	
 }

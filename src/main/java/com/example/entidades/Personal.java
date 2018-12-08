@@ -3,6 +3,7 @@ package com.example.entidades;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.example.clases.Utilities;
 import com.example.database.Db;
@@ -111,6 +112,46 @@ public class Personal {
 		dbase.executeQuery(sql);
 		System.out.println("Se actualizo a disponible el personal "+id_recurso);
 		//dbase.CerrarConexion();
+	}
+	public static ArrayList<PersonalEnBrigada> getPersonalEnBrigada(String nombre_brigada) throws SQLException{
+		ArrayList<PersonalEnBrigada> list = new ArrayList<>();
+		String query = "Select oc.nombre,per.nombre from ocupacion as oc \r\n" + 
+				"inner join personal as per on  oc.id = per.id_ocupacion\r\n" + 
+				"inner join recursos_brigada as rb on rb.id_recurso = per.id and rb.id_tipo_recurso = 1\r\n" + 
+				"inner join brigada as bri on bri.id = rb.id_brigada\r\n" + 
+				"where bri.nombre = '"+nombre_brigada+"';";
+		Db dbase = Utilities.getConection();
+		ResultSet rs = dbase.execSelect(query);
+		while(rs.next()) {
+			PersonalEnBrigada pb = new PersonalEnBrigada();
+			pb.setOcupacion(rs.getString(1));
+			pb.setNombre(rs.getString(2));
+			list.add(pb);
+		}
+		return list;
+	}
+	 
+	private static class PersonalEnBrigada{
+		String ocupacion,nombre;
+
+		public String getOcupacion() {
+			return ocupacion;
+		}
+
+		public void setOcupacion(String ocupacion) {
+			this.ocupacion = ocupacion;
+		}
+
+		public String getNombre() {
+			return nombre;
+		}
+
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+		
+		
+		 
 	}
 	
 }
