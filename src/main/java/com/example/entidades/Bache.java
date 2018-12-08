@@ -23,8 +23,13 @@ public class Bache {
 	private float puntaje;
 	private int peligrosidad,tam_bache;
 	private static Db dbase=null;
+	public Date fecha_asignacion;
 	
 	
+	public void setFecha_asignacion(Date fecha_asignacion) {
+		this.fecha_asignacion = fecha_asignacion;
+		
+	}
 	public int getId() {
 		return id;
 	}
@@ -286,6 +291,7 @@ public class Bache {
 		long days = interval.toDuration().getStandardDays();
 		puntaje += days *5.5; 
 		
+		puntaje += bache.getPeligrosidad()*7.36;
 		
 		
 		return puntaje;

@@ -68,12 +68,8 @@ public class Asignacion {
 					bri.bachesAsignados.add(ba);
 					//insertar asignacion aqui
 					insertAsignacion(bri.getId(), ba.getId(), fecha, dbase);
-					if(brigadas.add(bri)) {
-						System.out.println("Agrego a la lista");
-					}
-					else {
-						System.out.println("No Agrego a la lista");
-					}
+					bri.bachesAsignados.get(0).setFecha_asignacion(fecha.getTime());
+					brigadas.add(bri);
 				}
 				else{
 					System.err.println("Brigada nula");

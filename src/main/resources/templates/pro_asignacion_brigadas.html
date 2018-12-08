@@ -5,44 +5,125 @@
 	<body>
 		<header th:replace="layout/main :: header"></header>
 		
-		<div class="container">
-		
-		<div class="card text-white bg-dark mb-3 content text-center">
-			<div class="card-header font">Baches Asignados a Brigadas</div>
-			<div class="card-body">
-				
-				<div class="form-row table-wrapper-scroll-y">	
-					<table id="table" class=" table table-bordered table-hover table-striped  table-sm ">
-					  <thead class="thead-light">
-					    <tr>
-					      <th scope="col">Id Bache</th>
-					      <th scope="col">Registro</th>
-					      <th scope="col">Direccion</th>
-					      <th scope="col">Tipo de Bache</th>
-					      <th scope="col">Puntaje</th>
-					      
-					    </tr>
-					  </thead>
-					  <tbody>
-					  
-					  	<tr th:each="bache : ${BachesxReparar}">
-					  		<td th:text="${bache.id}">1</td>
-					  		<td th:text="${bache.fecha_registro}">2014-25-58</td>
-					  		<td th:text="${bache}"></td>
-					  		<td th:text="${bache.getTipo()}">4</td>
-					  		<td th:text="${bache.getPuntaje()}">52.2</td>
-					  	</tr>
-					 
-					  </tbody>
-					</table>
-				</div>
-				
+		<!--  <div class="container"> -->
+		<div class = "form-row">
+			<div class="col-xs-6">
+				<div class="card text-white bg-dark mb-3 content text-center">
+					<div class="card-header font">Brigadas Asignadas</div>
+					<div class="card-body">
+					
+					
+					<!--<div class="form-row table-wrapper-scroll-y" >  -->
+						<div th:each="brigada : ${brigadas}" class="card bg-light text-dark card border-dark mb-3">
+							<div class="card-header font" onclick="getRecursos(this.id)" th:id="${brigada.id}" th:text="${brigada.nombre}"></div>
+							<div class="card-body">
+								<table id="table" class=" table table-bordered table-hover table-striped  table-sm ">
+								  <thead class="thead-light">
+								    <tr>
+								      <th scope="col">Id Bache</th>
+								      <th scope="col">Dia</th>
+								      <th scope="col">Direccion</th>
+								      <th scope="col">Tipo de Bache</th>
+								      <th scope="col">Puntaje</th>
+								      
+								    </tr>
+								  </thead>
+								  <tbody>
+								  
+								  	<tr th:each="bache : ${brigada.bachesAsignados}">
+								  		<td th:text="${bache.id}">1</td>
+								  		<td th:text="${bache.fecha_asignacion.getDate()}">2014-25-58</td>
+								  		<td th:text="${bache}"></td>
+								  		<td th:text="${bache.getTipo()}">4</td>
+								  		<td th:text="${bache.getPuntaje()}">52.2</td>
+								  	</tr>
+								 
+								  </tbody>
+								</table>
+							</div>
+						</div>	
+					<!-- </div>	 -->
+						
+					</div>
+				</div>		
 			</div>
-		</div>		
-		
+			<!--  </div> -->
+			<div class="col-xs-6">
+				<div class="card text-white bg-dark mb-3 content text-center ">
+					<div class="card-header font">Brigada</div>
+					<div class="card-body">
+						<div class="card text-white bg-light text-dark mb-3 content text-center ">
+							<div class="card-header font">Personal</div>
+							<div class="card-body">
+								<table id="table" class=" table table-bordered table-hover table-striped  table-sm ">
+								  <thead class="thead-light">
+								    <tr>
+								      <th scope="col">Ocupacion</th>
+								      <th scope="col">Nombre</th>
+								    </tr>
+								  </thead>
+								  <tbody id="tbody-personal">
+								 
+								  </tbody>
+								</table>
+							</div>
+						</div>	
+						<br><br><br>
+						<div class="card text-white bg-light text-dark mb-3 content text-center ">
+							<div class="card-header font">Equipos</div>
+							<div class="card-body">
+							
+								<table id="table" class=" table table-bordered table-hover table-striped  table-sm ">
+								  <thead class="thead-light">
+								    <tr>
+								      <th scope="col">Tipo</th>
+								      <th scope="col">Nombre</th>
+								    </tr>
+								  </thead>
+								  <tbody id="tbody-equipo">
+								 
+								  </tbody>
+								</table>
+								
+							</div>
+						</div>	
+					</div>
+				</div>
+			</div>
 		</div>
-		
-		
-		<footer th:replace="layout/main :: footer"></footer>
+		<footer th:replace="layout/main :: footer" ></footer>
+		<script type="text/javascript">
+			
+			function getRecursos(id){
+				var nombreB = document.getElementById(id);
+				alert(nombreB.innerHTML);//Obtengo el nombre del card que es un div
+				$.ajax({
+					type:'GET',
+					url: '/api/getEquipos/'+ nombreB.innerHTML,
+					success: function(result){
+						alert(result);
+						var result = JSON.parse(result);
+						var s = '';
+						for(var i = 0; i<result.length; i++){
+							s+= '<tr>';
+							s+= '<td>'+result[i].tipo+'</td>';
+							s+= '<td>'+result[i].descripcion+'</td>';
+							s+= '</tr>';
+						}
+						$('#tbody-equipo').html(s);
+					},
+					error: function(data) {
+		                alert(data);
+		            }
+				});
+			}
+			/*$(document).ready(function(){
+				('#brigada-card').on('click',function(){
+					var nombreB = $('#brigada-card text').val();
+					alert(nombreB);
+					
+				});
+			});*/
+		</script>
 	</body>
 </html>		

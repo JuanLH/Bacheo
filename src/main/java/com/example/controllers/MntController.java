@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.clases.Utilities;
+import com.example.entidades.Asignacion;
 import com.example.entidades.Bache;
 import com.example.entidades.Daño;
 import com.example.entidades.Municipio;
@@ -124,14 +125,30 @@ public class MntController {
 		return "mnt_danos";
 	}
 	
-	@RequestMapping(value = "/asignacion_baches", method = RequestMethod.GET)
+	@RequestMapping(value = "/analisis_prioridad", method = RequestMethod.GET)
+	public String pro_analisisP(Model model) {
+		Bache bache = new Bache();
+		
+		model.addAttribute("titulo","Proceso de analisis de prioridad");
+		try {
+			model.addAttribute("BachesxReparar",Bache.getBaches_Puntuacion());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		
+		return "pro_analisis_prioridad";
+	
+	}
+	
+	@RequestMapping(value = "/asignacion_brigadas", method = RequestMethod.GET)
 	public String pro_asignacionB(Model model) {
 		Bache bache = new Bache();
 		
-		model.addAttribute("titulo","Proceso de Asignacion de Baches");
-		model.addAttribute("Con", Utilities.getConection());
+		model.addAttribute("titulo","Proceso de Asignacion de Brigadas");
 		try {
-			model.addAttribute("BachesxReparar",Bache.getBaches_Puntuacion());
+			model.addAttribute("brigadas",Asignacion.asignarBrigadas(Bache.getBaches_Puntuacion()));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

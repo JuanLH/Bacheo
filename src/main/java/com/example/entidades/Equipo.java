@@ -2,6 +2,7 @@ package com.example.entidades;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.example.clases.Utilities;
 import com.example.database.Db;
@@ -70,6 +71,39 @@ public class Equipo {
 		dbase.executeQuery(sql);
 		System.out.println("Se actualizo a disponible  el equipo "+id_recurso);
 		//dbase.CerrarConexion();
+	}
+	
+	public static ArrayList<EquiposEnBrigada> getEquiposEnBrigada(String nombreBrigada) throws SQLException {
+		ArrayList<EquiposEnBrigada> list = new ArrayList<>();
+		String query = "select  eq.descripcion,tipe.tipo from equipos as eq inner join tipo_equipo as tipe on eq.id_tipo_equipo = tipe.id\r\n" + 
+				"inner join recursos_brigada as rb on eq.id = rb.id_recurso and rb.id_tipo_recurso = 2\r\n" + 
+				"inner join brigada as bri on bri.id = rb.id_brigada\r\n" + 
+				"where bri.nombre = '"+nombreBrigada+"'";
+		Db dbase = Utilities.getConection();
+		ResultSet rs = dbase.execSelect(query);
+		while(rs.next()) {
+			EquiposEnBrigada eb = new EquiposEnBrigada();
+			eb.setDescripcion(rs.getString(1));
+			eb.setTipo(rs.getString(2));
+			list.add(eb);
+		}
+		return list;
+	}
+	 private static class EquiposEnBrigada{
+		private String descripcion;
+		private String tipo;
+		public String getDescripcion() {
+			return descripcion;
+		}
+		public void setDescripcion(String descripcion) {
+			this.descripcion = descripcion;
+		}
+		public String getTipo() {
+			return tipo;
+		}
+		public void setTipo(String tipo) {
+			this.tipo = tipo;
+		}
 	}
 	
 }

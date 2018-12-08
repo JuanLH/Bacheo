@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="layout/main :: head"></head>
+	
+	<body>
+		<header th:replace="layout/main :: header"></header>
+		
+		<div class="container">
+		
+		<div class="card  text-white bg-dark mb-3 content text-center ">
+			<div class="card-header font">Baches Ordenados por Prioridad</div>
+			<div class="card-body">
+				
+				<!-- <div class="form-row table-wrapper-scroll-y">	 -->
+					<table id="table" class=" table table-bordered table-hover table-striped  table-sm ">
+					  <thead class="thead-light">
+					    <tr>
+					      <th scope="col">Id Bache</th>
+					      <th scope="col">Registro</th>
+					      <th scope="col">Direccion</th>
+					      <th scope="col">Tipo de Bache</th>
+					      <th scope="col">Puntaje</th>
+					      
+					    </tr>
+					  </thead>
+					  <tbody>
+					  
+					  	<tr th:each="bache : ${BachesxReparar}">
+					  		<td th:text="${bache.id}">1</td>
+					  		<td th:text="${bache.fecha_registro}">2014-25-58</td>
+					  		<td th:text="${bache}"></td>
+					  		<td th:text="${bache.getTipo()}">4</td>
+					  		<td th:text="${bache.getPuntaje()}">52.2</td>
+					  	</tr>
+					 
+					  </tbody>
+					</table>
+				
+				
+			</div>
+		</div>		
+		
+		</div>
+		
+		
+		<footer th:replace="layout/main :: footer"></footer>
+	</body>
+</html>		
