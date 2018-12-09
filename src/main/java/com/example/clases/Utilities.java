@@ -27,10 +27,9 @@ public class Utilities {
 
 
 	public static String getFileExtension(String Pathfile) {
-	    //String name = file.getName();
 	    int lastIndexOf = Pathfile.lastIndexOf(".");
 	    if (lastIndexOf == -1) {
-	        return ""; // empty extension
+	        return ""; 
 	    }
 	    return Pathfile.substring(lastIndexOf);
 	}
