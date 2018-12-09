@@ -1,0 +1,2097 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.15
+-- Dumped by pg_dump version 9.5.5
+
+-- Started on 2018-12-08 19:37:23
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 1 (class 3079 OID 12355)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2334 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 198 (class 1259 OID 16508)
+-- Name: daños; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "daños" (
+    id integer NOT NULL,
+    id_bache integer,
+    descripcion character varying(150),
+    nombre_ciudadano character varying(50),
+    cedula character varying(50),
+    telefono character varying(25),
+    gasto integer
+);
+
+
+ALTER TABLE "daños" OWNER TO postgres;
+
+--
+-- TOC entry 197 (class 1259 OID 16506)
+-- Name: Daños_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Daños_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE "Daños_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 2335 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: Daños_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Daños_id_seq" OWNED BY "daños".id;
+
+
+--
+-- TOC entry 220 (class 1259 OID 16641)
+-- Name: asignaciones; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE asignaciones (
+    id integer NOT NULL,
+    id_brigada integer,
+    id_bache integer,
+    fecha date,
+    estado integer
+);
+
+
+ALTER TABLE asignaciones OWNER TO postgres;
+
+--
+-- TOC entry 196 (class 1259 OID 16489)
+-- Name: baches; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE baches (
+    id integer NOT NULL,
+    fecha_registro date,
+    id_segmento integer,
+    entaponamiento boolean,
+    cant_servicios_afec integer,
+    fecha_reparacion date,
+    id_tipo_bache integer,
+    photo_name character varying(15),
+    peligrosidad integer,
+    tam_bache integer
+);
+
+
+ALTER TABLE baches OWNER TO postgres;
+
+--
+-- TOC entry 195 (class 1259 OID 16487)
+-- Name: baches_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE baches_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE baches_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2336 (class 0 OID 0)
+-- Dependencies: 195
+-- Name: baches_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE baches_id_seq OWNED BY baches.id;
+
+
+--
+-- TOC entry 216 (class 1259 OID 16610)
+-- Name: brigada; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE brigada (
+    id integer NOT NULL,
+    nombre character varying(100),
+    id_tipo_brigada integer,
+    capacidad_diaria integer,
+    estado integer
+);
+
+
+ALTER TABLE brigada OWNER TO postgres;
+
+--
+-- TOC entry 215 (class 1259 OID 16608)
+-- Name: brigada_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE brigada_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE brigada_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2337 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: brigada_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE brigada_id_seq OWNED BY brigada.id;
+
+
+--
+-- TOC entry 190 (class 1259 OID 16445)
+-- Name: calles; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE calles (
+    id integer NOT NULL,
+    id_tipo_calle integer,
+    nombre character varying(100),
+    puntaje numeric(3,2)
+);
+
+
+ALTER TABLE calles OWNER TO postgres;
+
+--
+-- TOC entry 189 (class 1259 OID 16443)
+-- Name: calles_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE calles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE calles_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2338 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: calles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE calles_id_seq OWNED BY calles.id;
+
+
+--
+-- TOC entry 206 (class 1259 OID 16550)
+-- Name: equipos; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE equipos (
+    id integer NOT NULL,
+    descripcion character varying(100),
+    id_tipo_equipo integer,
+    id_estado integer
+);
+
+
+ALTER TABLE equipos OWNER TO postgres;
+
+--
+-- TOC entry 205 (class 1259 OID 16548)
+-- Name: equipos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE equipos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE equipos_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2339 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: equipos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE equipos_id_seq OWNED BY equipos.id;
+
+
+--
+-- TOC entry 202 (class 1259 OID 16529)
+-- Name: estados; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE estados (
+    id integer NOT NULL,
+    id_tipo_estado integer,
+    descripcion character varying(50)
+);
+
+
+ALTER TABLE estados OWNER TO postgres;
+
+--
+-- TOC entry 201 (class 1259 OID 16527)
+-- Name: estados_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE estados_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE estados_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2340 (class 0 OID 0)
+-- Dependencies: 201
+-- Name: estados_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE estados_id_seq OWNED BY estados.id;
+
+
+--
+-- TOC entry 182 (class 1259 OID 16408)
+-- Name: municipios; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE municipios (
+    id integer NOT NULL,
+    nombre character varying(100),
+    puntaje numeric(3,2)
+);
+
+
+ALTER TABLE municipios OWNER TO postgres;
+
+--
+-- TOC entry 181 (class 1259 OID 16406)
+-- Name: municipios_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE municipios_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE municipios_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2341 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: municipios_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE municipios_id_seq OWNED BY municipios.id;
+
+
+--
+-- TOC entry 210 (class 1259 OID 16576)
+-- Name: ocupacion; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE ocupacion (
+    id integer NOT NULL,
+    nombre character varying(50)
+);
+
+
+ALTER TABLE ocupacion OWNER TO postgres;
+
+--
+-- TOC entry 209 (class 1259 OID 16574)
+-- Name: ocupacion_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE ocupacion_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE ocupacion_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2342 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: ocupacion_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE ocupacion_id_seq OWNED BY ocupacion.id;
+
+
+--
+-- TOC entry 208 (class 1259 OID 16568)
+-- Name: personal; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE personal (
+    id integer NOT NULL,
+    nombre character varying(100),
+    cedula character varying(25),
+    telefono character varying(25),
+    direccion character varying(200),
+    sexo character(1),
+    id_ocupacion integer,
+    id_estado integer
+);
+
+
+ALTER TABLE personal OWNER TO postgres;
+
+--
+-- TOC entry 207 (class 1259 OID 16566)
+-- Name: personal_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE personal_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE personal_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2343 (class 0 OID 0)
+-- Dependencies: 207
+-- Name: personal_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE personal_id_seq OWNED BY personal.id;
+
+
+--
+-- TOC entry 218 (class 1259 OID 16623)
+-- Name: recursos_brigada; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE recursos_brigada (
+    id integer NOT NULL,
+    id_brigada integer,
+    id_recurso integer,
+    id_tipo_recurso integer
+);
+
+
+ALTER TABLE recursos_brigada OWNER TO postgres;
+
+--
+-- TOC entry 2344 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: COLUMN recursos_brigada.id_recurso; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN recursos_brigada.id_recurso IS 'Puede ser personal o equipos dependera del id tipo de recurso';
+
+
+--
+-- TOC entry 217 (class 1259 OID 16621)
+-- Name: recursos_brigada_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE recursos_brigada_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE recursos_brigada_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2345 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: recursos_brigada_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE recursos_brigada_id_seq OWNED BY recursos_brigada.id;
+
+
+--
+-- TOC entry 219 (class 1259 OID 16639)
+-- Name: reparaciones_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE reparaciones_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE reparaciones_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2346 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: reparaciones_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE reparaciones_id_seq OWNED BY asignaciones.id;
+
+
+--
+-- TOC entry 184 (class 1259 OID 16416)
+-- Name: sectores; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE sectores (
+    id integer NOT NULL,
+    id_municipio integer NOT NULL,
+    nombre character varying(100),
+    puntaje numeric(3,2)
+);
+
+
+ALTER TABLE sectores OWNER TO postgres;
+
+--
+-- TOC entry 183 (class 1259 OID 16414)
+-- Name: sectores_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sectores_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE sectores_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2347 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: sectores_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sectores_id_seq OWNED BY sectores.id;
+
+
+--
+-- TOC entry 192 (class 1259 OID 16458)
+-- Name: segmentos; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE segmentos (
+    id integer NOT NULL,
+    id_sector integer,
+    id_calle integer,
+    id_tipo_material integer,
+    puntaje numeric(3,2),
+    descripcion character varying(100) NOT NULL
+);
+
+
+ALTER TABLE segmentos OWNER TO postgres;
+
+--
+-- TOC entry 191 (class 1259 OID 16456)
+-- Name: segmentos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE segmentos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE segmentos_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2348 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: segmentos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE segmentos_id_seq OWNED BY segmentos.id;
+
+
+--
+-- TOC entry 194 (class 1259 OID 16481)
+-- Name: tipo_bache; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE tipo_bache (
+    id integer NOT NULL,
+    nombre character varying(100),
+    puntaje numeric(3,2)
+);
+
+
+ALTER TABLE tipo_bache OWNER TO postgres;
+
+--
+-- TOC entry 193 (class 1259 OID 16479)
+-- Name: tipo_bache_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE tipo_bache_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tipo_bache_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2349 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: tipo_bache_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE tipo_bache_id_seq OWNED BY tipo_bache.id;
+
+
+--
+-- TOC entry 214 (class 1259 OID 16602)
+-- Name: tipo_brigada; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE tipo_brigada (
+    id integer NOT NULL,
+    tipo character varying(100)
+);
+
+
+ALTER TABLE tipo_brigada OWNER TO postgres;
+
+--
+-- TOC entry 213 (class 1259 OID 16600)
+-- Name: tipo_brigada_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE tipo_brigada_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tipo_brigada_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2350 (class 0 OID 0)
+-- Dependencies: 213
+-- Name: tipo_brigada_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE tipo_brigada_id_seq OWNED BY tipo_brigada.id;
+
+
+--
+-- TOC entry 188 (class 1259 OID 16437)
+-- Name: tipo_calle; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE tipo_calle (
+    id integer NOT NULL,
+    tipo character varying(100),
+    puntaje numeric(3,2)
+);
+
+
+ALTER TABLE tipo_calle OWNER TO postgres;
+
+--
+-- TOC entry 187 (class 1259 OID 16435)
+-- Name: tipo_calle_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE tipo_calle_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tipo_calle_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2351 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: tipo_calle_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE tipo_calle_id_seq OWNED BY tipo_calle.id;
+
+
+--
+-- TOC entry 204 (class 1259 OID 16542)
+-- Name: tipo_equipo; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE tipo_equipo (
+    id integer NOT NULL,
+    tipo character varying(60)
+);
+
+
+ALTER TABLE tipo_equipo OWNER TO postgres;
+
+--
+-- TOC entry 203 (class 1259 OID 16540)
+-- Name: tipo_equipo_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE tipo_equipo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tipo_equipo_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2352 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: tipo_equipo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE tipo_equipo_id_seq OWNED BY tipo_equipo.id;
+
+
+--
+-- TOC entry 200 (class 1259 OID 16521)
+-- Name: tipo_estado; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE tipo_estado (
+    id integer NOT NULL,
+    tipo character varying(50)
+);
+
+
+ALTER TABLE tipo_estado OWNER TO postgres;
+
+--
+-- TOC entry 199 (class 1259 OID 16519)
+-- Name: tipo_estado_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE tipo_estado_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tipo_estado_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2353 (class 0 OID 0)
+-- Dependencies: 199
+-- Name: tipo_estado_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE tipo_estado_id_seq OWNED BY tipo_estado.id;
+
+
+--
+-- TOC entry 186 (class 1259 OID 16429)
+-- Name: tipo_material; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE tipo_material (
+    id integer NOT NULL,
+    tipo character varying(100),
+    puntaje numeric(3,2)
+);
+
+
+ALTER TABLE tipo_material OWNER TO postgres;
+
+--
+-- TOC entry 185 (class 1259 OID 16427)
+-- Name: tipo_material_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE tipo_material_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tipo_material_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2354 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: tipo_material_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE tipo_material_id_seq OWNED BY tipo_material.id;
+
+
+--
+-- TOC entry 212 (class 1259 OID 16594)
+-- Name: tipo_recurso; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE tipo_recurso (
+    id integer NOT NULL,
+    tipo character varying(50)
+);
+
+
+ALTER TABLE tipo_recurso OWNER TO postgres;
+
+--
+-- TOC entry 211 (class 1259 OID 16592)
+-- Name: tipo_recurso_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE tipo_recurso_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tipo_recurso_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2355 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: tipo_recurso_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE tipo_recurso_id_seq OWNED BY tipo_recurso.id;
+
+
+--
+-- TOC entry 2114 (class 2604 OID 16644)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY asignaciones ALTER COLUMN id SET DEFAULT nextval('reparaciones_id_seq'::regclass);
+
+
+--
+-- TOC entry 2102 (class 2604 OID 16492)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY baches ALTER COLUMN id SET DEFAULT nextval('baches_id_seq'::regclass);
+
+
+--
+-- TOC entry 2112 (class 2604 OID 16613)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY brigada ALTER COLUMN id SET DEFAULT nextval('brigada_id_seq'::regclass);
+
+
+--
+-- TOC entry 2099 (class 2604 OID 16448)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY calles ALTER COLUMN id SET DEFAULT nextval('calles_id_seq'::regclass);
+
+
+--
+-- TOC entry 2103 (class 2604 OID 16511)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "daños" ALTER COLUMN id SET DEFAULT nextval('"Daños_id_seq"'::regclass);
+
+
+--
+-- TOC entry 2107 (class 2604 OID 16553)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY equipos ALTER COLUMN id SET DEFAULT nextval('equipos_id_seq'::regclass);
+
+
+--
+-- TOC entry 2105 (class 2604 OID 16532)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY estados ALTER COLUMN id SET DEFAULT nextval('estados_id_seq'::regclass);
+
+
+--
+-- TOC entry 2095 (class 2604 OID 16411)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY municipios ALTER COLUMN id SET DEFAULT nextval('municipios_id_seq'::regclass);
+
+
+--
+-- TOC entry 2109 (class 2604 OID 16579)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY ocupacion ALTER COLUMN id SET DEFAULT nextval('ocupacion_id_seq'::regclass);
+
+
+--
+-- TOC entry 2108 (class 2604 OID 16571)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY personal ALTER COLUMN id SET DEFAULT nextval('personal_id_seq'::regclass);
+
+
+--
+-- TOC entry 2113 (class 2604 OID 16626)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY recursos_brigada ALTER COLUMN id SET DEFAULT nextval('recursos_brigada_id_seq'::regclass);
+
+
+--
+-- TOC entry 2096 (class 2604 OID 16419)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sectores ALTER COLUMN id SET DEFAULT nextval('sectores_id_seq'::regclass);
+
+
+--
+-- TOC entry 2100 (class 2604 OID 16461)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY segmentos ALTER COLUMN id SET DEFAULT nextval('segmentos_id_seq'::regclass);
+
+
+--
+-- TOC entry 2101 (class 2604 OID 16484)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tipo_bache ALTER COLUMN id SET DEFAULT nextval('tipo_bache_id_seq'::regclass);
+
+
+--
+-- TOC entry 2111 (class 2604 OID 16605)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tipo_brigada ALTER COLUMN id SET DEFAULT nextval('tipo_brigada_id_seq'::regclass);
+
+
+--
+-- TOC entry 2098 (class 2604 OID 16440)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tipo_calle ALTER COLUMN id SET DEFAULT nextval('tipo_calle_id_seq'::regclass);
+
+
+--
+-- TOC entry 2106 (class 2604 OID 16545)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tipo_equipo ALTER COLUMN id SET DEFAULT nextval('tipo_equipo_id_seq'::regclass);
+
+
+--
+-- TOC entry 2104 (class 2604 OID 16524)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tipo_estado ALTER COLUMN id SET DEFAULT nextval('tipo_estado_id_seq'::regclass);
+
+
+--
+-- TOC entry 2097 (class 2604 OID 16432)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tipo_material ALTER COLUMN id SET DEFAULT nextval('tipo_material_id_seq'::regclass);
+
+
+--
+-- TOC entry 2110 (class 2604 OID 16597)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tipo_recurso ALTER COLUMN id SET DEFAULT nextval('tipo_recurso_id_seq'::regclass);
+
+
+--
+-- TOC entry 2356 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: Daños_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Daños_id_seq"', 5, true);
+
+
+--
+-- TOC entry 2326 (class 0 OID 16641)
+-- Dependencies: 220
+-- Data for Name: asignaciones; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY asignaciones (id, id_brigada, id_bache, fecha, estado) FROM stdin;
+3677	3226	10	2018-12-08	0
+3678	3227	13	2018-12-08	0
+3679	3226	6	2018-12-08	0
+3680	3228	5	2018-12-08	0
+3681	3228	9	2018-12-08	0
+3682	3228	8	2018-12-08	0
+3683	3228	7	2018-12-09	0
+3684	3228	4	2018-12-09	0
+3685	3227	12	2018-12-08	0
+3686	3227	3	2018-12-08	0
+3687	3228	11	2018-12-09	0
+3688	3226	21	2018-12-09	0
+3689	3226	15	2018-12-09	0
+3690	3226	18	2018-12-10	0
+3691	3226	16	2018-12-10	0
+\.
+
+
+--
+-- TOC entry 2302 (class 0 OID 16489)
+-- Dependencies: 196
+-- Data for Name: baches; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY baches (id, fecha_registro, id_segmento, entaponamiento, cant_servicios_afec, fecha_reparacion, id_tipo_bache, photo_name, peligrosidad, tam_bache) FROM stdin;
+15	2018-12-04	13	t	1	\N	3	15.jpg	3	3
+16	2018-12-04	14	f	0	\N	5	16.jpg	3	2
+17	2018-12-06	2	f	0	\N	5	17.jpg	1	1
+18	2018-12-07	13	t	1	\N	6	18.jpg	3	2
+19	2018-12-07	12	t	2	\N	4	19.jpg	4	3
+20	2018-12-07	12	t	0	\N	3	20.jpg	3	3
+21	2018-12-08	16	t	1	\N	4	21.jpg	6	3
+10	2018-11-21	13	t	2	\N	3	10.jpg	2	3
+3	2018-11-22	12	f	0	\N	1	\N	2	3
+4	2018-11-22	13	f	0	\N	1	\N	3	3
+5	2018-11-22	14	f	0	\N	1	\N	2	3
+6	2018-11-22	13	f	0	\N	4	\N	4	3
+7	2018-11-22	14	f	0	\N	1	\N	3	3
+8	2018-11-22	13	f	0	\N	1	.jpg	3	3
+9	2018-11-22	13	f	0	\N	1	9.jpg	3	3
+11	2018-11-23	13	f	0	\N	1	11.jpg	2	3
+12	2018-11-24	12	f	0	\N	1	12.jpg	3	3
+13	2018-11-27	1	t	2	\N	2	13.jpg	4	3
+14	2018-11-29	3	t	1	\N	6	14.jpg	5	3
+\.
+
+
+--
+-- TOC entry 2357 (class 0 OID 0)
+-- Dependencies: 195
+-- Name: baches_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('baches_id_seq', 21, true);
+
+
+--
+-- TOC entry 2322 (class 0 OID 16610)
+-- Dependencies: 216
+-- Data for Name: brigada; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY brigada (id, nombre, id_tipo_brigada, capacidad_diaria, estado) FROM stdin;
+3226	BRIGADA ESTANDAR CONCRETO - MARCOS DURAN	2	6	0
+3227	BRIGADA ESPECIAL ASFALTO - ENRIQUE RAMOS	3	10	0
+3228	BRIGADA ESPECIAL CONCRETO - RAUL HICIANO	4	10	0
+\.
+
+
+--
+-- TOC entry 2358 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: brigada_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('brigada_id_seq', 3239, true);
+
+
+--
+-- TOC entry 2296 (class 0 OID 16445)
+-- Dependencies: 190
+-- Data for Name: calles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY calles (id, id_tipo_calle, nombre, puntaje) FROM stdin;
+2	4	PENETRACION	4.25
+3	3	CALLE Ñ	3.25
+4	3	CALLE L	3.21
+5	3	CALLE K	3.25
+7	4	CALLE PROYECTO	5.36
+8	1	AVENIDA CIRCUNVALACION	5.85
+9	1	AV. J. ARMANDO BERMUDEZ 	6.99
+10	3	DR. ALEJANDRO LLENAS	5.36
+1	1	AV. HATUEY	5.36
+6	1	AV. LA PIÑA	4.36
+11	3	C. FRANCISCO VILLAESPESA	5.30
+\.
+
+
+--
+-- TOC entry 2359 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: calles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('calles_id_seq', 1, false);
+
+
+--
+-- TOC entry 2304 (class 0 OID 16508)
+-- Dependencies: 198
+-- Data for Name: daños; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "daños" (id, id_bache, descripcion, nombre_ciudadano, cedula, telefono, gasto) FROM stdin;
+1	11	Choque con un carro por un bache	raputin	564845154554-5	8297885489	3000
+2	12	Cai en un bache y se me exploto la goma	Dous	848-59959595-8	829787546	800
+3	5	Por desechar un bache choque a una persona y tengo que pagarle el medico	Ramon	266262626262622	626262626262	15000
+4	5	El amortiguador se me daño	Jesus	0255959226216	65626262526	6565
+5	17	Motivo del dano	Juan	262662626266	2662626262	600
+\.
+
+
+--
+-- TOC entry 2312 (class 0 OID 16550)
+-- Dependencies: 206
+-- Data for Name: equipos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY equipos (id, descripcion, id_tipo_equipo, id_estado) FROM stdin;
+36	FROTADOR	2	1
+10	COMPACTADOR MANUAL	3	1
+13	TERMOCUPLA PARA ASFALTO	2	1
+26	FROTADOR	2	1
+35	FROTADOR	2	1
+16	CAMION CAMA LARGA 	1	1
+19	PICO 	2	1
+27	FROTADOR	2	1
+64	PICO	2	2
+65	PICO	2	2
+30	CUBO	2	2
+31	CUBO	2	2
+22	CAMION CAMA LARGA	1	2
+6	MEZCLADORA DE CONCRETO	3	2
+42	PALA DE MEZCLAR	2	2
+43	PALA DE MEZCLAR	2	2
+37	CARRETILLA	2	2
+9	PICO	2	2
+17	PICO	2	2
+63	PICO	2	2
+39	CUBO	2	2
+40	CUBO	2	2
+2	PALA DE CORTE	2	2
+5	PALA DE CORTE	2	2
+7	CORTADORA DE ASFALTO	3	2
+23	CAMION CAMA LARGA	1	2
+21	COMPRESOR DE AIRE	3	2
+12	COMPACTADOR VIBRATORIO DE RODILLO	3	2
+15	PLANCHA COMPACTADORA	3	2
+58	RASTRILLO DE NIVELACION	2	2
+60	RASTRILLO DE NIVELACION	2	2
+29	CARRETILLA	2	2
+38	CARRETILLA	2	2
+20	PAVIMENTADORA DE ASFALTO	3	2
+33	CAMION CAMA LARGA	1	2
+41	PALA DE MEZCLAR	2	2
+3	PALA DE MEZCLAR	2	2
+14	COMPRESOR DE AIRE	3	1
+25	TROMPO MESCLADOR DE CONCRETO	3	2
+28	CARRETILLA	2	2
+61	PLANCHA COMPACTADORA	3	1
+8	CARRETILLA	2	2
+62	PLANCHA COMPACTADORA	3	1
+59	RASTRILLO DE NIVELACION	2	1
+57	RASTRILLO DE NIVELACION	2	1
+34	TROMPO MESCLADOR DE CONCRETO	3	1
+24	CAMION CAMA LARGA	1	1
+1	CAMION CAMA LARGA	1	1
+32	CAMION CAMA LARGA	1	1
+4	PALA DE MEZCLAR	2	1
+44	CORTADORA DE ASFALTO	3	1
+45	CORTADORA DE ASFALTO	3	1
+11	RASTRILLO DE NIVELACION	2	1
+46	CORTADORA DE ASFALTO	3	1
+66	CUBO	2	2
+50	PALA DE CORTE	2	2
+52	PICO	2	2
+51	PICO	2	2
+67	CUBO	2	2
+69	CUBO	2	2
+68	CUBO 	2	1
+53	PALA DE CORTE	2	1
+49	PALA DE CORTE	2	1
+18	PALA DE CORTE	2	1
+54	PALA DE CORTE	2	1
+47	PICO	2	1
+48	PICO	2	1
+\.
+
+
+--
+-- TOC entry 2360 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: equipos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('equipos_id_seq', 69, true);
+
+
+--
+-- TOC entry 2308 (class 0 OID 16529)
+-- Dependencies: 202
+-- Data for Name: estados; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY estados (id, id_tipo_estado, descripcion) FROM stdin;
+1	2	EQUIPO DISPONIBLE
+2	2	EQUIPO EN BRIGADA
+3	2	EQUIPO DAÑADO
+4	1	PERSONAL DISPONIBLE
+5	1	PERSONAL EN BRIGADA
+6	1	PERSONAL NO DISPONIBLE
+\.
+
+
+--
+-- TOC entry 2361 (class 0 OID 0)
+-- Dependencies: 201
+-- Name: estados_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('estados_id_seq', 1, false);
+
+
+--
+-- TOC entry 2288 (class 0 OID 16408)
+-- Dependencies: 182
+-- Data for Name: municipios; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY municipios (id, nombre, puntaje) FROM stdin;
+1	SANTIAGO	9.99
+2	BISONO	8.99
+3	JANICO	8.00
+4	LICEY AL MEDIO	7.50
+5	SAN JOSE DE LAS MATAS	7.00
+6	TAMBORIL	7.20
+7	VILLA GONZALEZ	7.10
+8	PUÑAL	6.80
+9	SABANA IGLESIA	6.70
+\.
+
+
+--
+-- TOC entry 2362 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: municipios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('municipios_id_seq', 2, true);
+
+
+--
+-- TOC entry 2316 (class 0 OID 16576)
+-- Dependencies: 210
+-- Data for Name: ocupacion; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY ocupacion (id, nombre) FROM stdin;
+1	SUPERVISOR
+2	INGENIERO
+3	CHOFER
+4	OBRERO
+\.
+
+
+--
+-- TOC entry 2363 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: ocupacion_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('ocupacion_id_seq', 2, true);
+
+
+--
+-- TOC entry 2314 (class 0 OID 16568)
+-- Dependencies: 208
+-- Data for Name: personal; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY personal (id, nombre, cedula, telefono, direccion, sexo, id_ocupacion, id_estado) FROM stdin;
+2	RAMON SEGURA	40545896547	8297458489	VILLA GONZALES, CENTRO DEL PUEBLO CALLE 3 CASA 8	M	2	4
+16	ALDO FELIPE	402-22555555-5	8294546884	LOS PRADOS ABAJO CALLE 3	M	2	4
+5	MARICEL ALCANTARA	40265898745	8294546589	GURABITO AV IMPERT CASA 23	F	1	4
+10	LUIS MARTINEZ 	425645898245	8496562456	LOS PEPINES CALLE MARINO DIAZ CASA 5	M	3	4
+24	TRABO ROTO	402-22555555-5	8294546884	LOS PRADOS ABAJO CALLE 3	M	1	4
+15	FELIPE RAMOS	402-22555555-5	8294546884	LOS PRADOS ABAJO CALLE 3	M	1	4
+21	MARTIN POLAR	402-22555555-5	8294546884	LOS PRADOS ABAJO CALLE 3	M	3	4
+3	REYMOND TEJADA	402958795258	8297896554	LA HERRADURA CALLE PRINCIPAL CASA 2	M	3	4
+9	MARINA MARTINEZ	40358958589	8494985895	LA ZURZA CALLE PRINCIPAL CASA 4	F	2	5
+11	CRISTIAN	40256489879	8297892658	LA REAL CAS 34	M	4	5
+12	PECO	402655465665	8295652626	AYI	M	4	5
+22	ENRIQUE RAMOS	402-22555555-5	8294546884	LOS PRADOS ABAJO CALLE 3	M	1	5
+28	STALIN POLAR	402-22555555-5	8294546884	LOS PRADOS ABAJO CALLE 3	M	3	5
+26	PER PEN	402-22555555-5	8294546884	LOS PRADOS ABAJO CALLE 3	M	2	5
+4	MANUEL PARRA	425565458655	8297879896	LOS PRADOS CASA 4 CALLE 3	M	4	5
+13	MIN	4025545455645	8294954625	EN LOS JAZMINES	M	4	5
+7	PABLO COJELO	40326536489	8094587896	MARIA TRINIDAD SANCHES CASA 3	M	4	5
+8	JUAN PEREZ	40291834555	8297875489	JACAGUA CALLE PENETRACION CASA #32	M	4	5
+1	RAUL HICIANO	40285896478	8295864785	LOS PEPINES CALLE 5 CASA 3	M	1	5
+27	MARIANO DE LA CRUZ	402-22555555-5	8294546884	LOS PRADOS ABAJO CALLE 3	M	3	5
+14	MARCOS FELIPE	402-22555555-5	8294546884	LOS PRADOS ABAJO CALLE 3	M	3	5
+6	PEDRO JAQUEZ	40297350897	8098594548	LOS REYES AV HATUEY CASA 34	M	4	5
+25	MAN CAM	402-22555555-5	8294546884	LOS PRADOS ABAJO CALLE 3	M	4	5
+20	JUSTO DE LA CRUZ	402-22555555-5	8294546884	LOS PRADOS ABAJO CALLE 3	M	4	5
+23	MARCOS DURAN	402-22555555-5	8294546884	LOS PRADOS ABAJO CALLE 3	M	1	5
+17	TRABO ROTO	402-22555555-5	8294546884	LOS PRADOS ABAJO CALLE 3	M	3	5
+19	PIERRE PEN	402-22555555-5	8294546884	LOS PRADOS ABAJO CALLE 3	M	4	5
+18	JAVIER CAM	402-22555555-5	8294546884	LOS PRADOS ABAJO CALLE 3	M	4	5
+\.
+
+
+--
+-- TOC entry 2364 (class 0 OID 0)
+-- Dependencies: 207
+-- Name: personal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('personal_id_seq', 28, true);
+
+
+--
+-- TOC entry 2324 (class 0 OID 16623)
+-- Dependencies: 218
+-- Data for Name: recursos_brigada; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY recursos_brigada (id, id_brigada, id_recurso, id_tipo_recurso) FROM stdin;
+20621	3226	25	1
+20622	3226	20	1
+20623	3226	23	1
+20624	3226	17	1
+20625	3226	64	2
+20626	3226	65	2
+20627	3226	30	2
+20628	3226	31	2
+20629	3226	22	2
+20630	3226	6	2
+20631	3226	42	2
+20632	3226	43	2
+20633	3226	37	2
+20634	3227	9	1
+20635	3227	19	1
+20636	3227	18	1
+20637	3227	11	1
+20638	3227	12	1
+20639	3227	22	1
+20640	3227	28	1
+20641	3227	9	2
+20642	3227	17	2
+20643	3227	63	2
+20644	3227	39	2
+20645	3227	40	2
+20646	3227	66	2
+20647	3227	2	2
+20648	3227	5	2
+20649	3227	50	2
+20650	3227	7	2
+20651	3227	23	2
+20652	3227	21	2
+20653	3227	12	2
+20654	3227	15	2
+20655	3227	58	2
+20656	3227	60	2
+20657	3227	29	2
+20658	3227	38	2
+20659	3227	20	2
+20660	3228	26	1
+20661	3228	4	1
+20662	3228	13	1
+20663	3228	7	1
+20664	3228	8	1
+20665	3228	1	1
+20666	3228	27	1
+20667	3228	14	1
+20668	3228	52	2
+20669	3228	51	2
+20670	3228	67	2
+20671	3228	69	2
+20672	3228	33	2
+20673	3228	41	2
+20674	3228	3	2
+20675	3228	25	2
+20676	3228	28	2
+20677	3228	8	2
+\.
+
+
+--
+-- TOC entry 2365 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: recursos_brigada_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('recursos_brigada_id_seq', 20680, true);
+
+
+--
+-- TOC entry 2366 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: reparaciones_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('reparaciones_id_seq', 3691, true);
+
+
+--
+-- TOC entry 2290 (class 0 OID 16416)
+-- Dependencies: 184
+-- Data for Name: sectores; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY sectores (id, id_municipio, nombre, puntaje) FROM stdin;
+1	1	CIENFUEGOS	8.00
+2	1	MONTE RICO	7.20
+3	1	LOS SALADOS	7.00
+4	1	ENSANCHE LIBERTAD	5.99
+5	1	ALTOS VIREYA	6.00
+6	1	ESPAILLAT	5.00
+7	1	ENSANCHE BERMUDEZ	7.50
+8	1	LA OTRA BANDA	6.85
+9	1	BARACOA	5.00
+10	1	LA JOYA	6.35
+11	1	BELLA VISTA	6.50
+12	1	PERALTA	8.23
+13	1	LA YAGUITA DE PASTOR	7.45
+14	1	LOS JAZMINES	4.21
+15	1	NIBAJE	5.32
+16	1	CENTRO DE LA CIUDAD	9.99
+17	1	PUEBLO NUEVO	8.15
+18	1	ENSANCHE BOLIVAR	5.32
+19	1	 LOS CIRUELITOS	7.50
+20	1	LAS COLINAS	7.64
+21	1	URBANIZACION LOS REYES	9.23
+22	1	BUENOS AIRES	8.32
+23	1	GREGORIO LUPERON	8.53
+24	1	MEJORAMIENTO SOCIAL	7.25
+25	1	LOS JARDINES METROPOLITANOS	8.35
+26	1	LA TRINITARIA	7.88
+27	1	LA ZURZA	8.99
+28	1	EL ENSUEÑO	5.78
+29	1	PEKIN	7.32
+30	1	REPARTO UNIVERSITARIO	4.23
+31	2	EL CERRO	8.23
+32	2	CENTRO DEL PUEBLO	9.33
+33	2	LOS CANDELONES	7.26
+34	2	DUARTE	8.37
+35	2	JEREMIAS O NUEVO	7.36
+36	2	MELLA	6.00
+37	3	CENTRO DEL PUEBLO	9.99
+38	3	EL PLAY	8.24
+39	3	SAN JOSE	7.59
+40	3	PUEBLO NUEVO	8.15
+41	3	CEBU	5.23
+42	3	JAGUA ABAJO	8.45
+43	4	VILLA ALBA	4.56
+44	4	EL SOLANO	5.12
+45	4	EL CENTRO	7.25
+46	4	LIMONAL ARRIBA	6.25
+47	4	LICEY ABAJO	7.25
+48	4	CRUZ DE ISALGUEZ	4.25
+49	4	LAS PALOMAS O CENTRO	9.99
+50	5	PUEBLO NUEVO	3.25
+51	5	CENTRO DEL PUEBLO 	9.99
+52	5	VILLA DUARTE ARRIBA	8.54
+53	5	VILLA DUARTE ABAJO	7.54
+54	5	PARAISO DE LAS MATAS	7.25
+55	5	CAÑADA DEL CAIMITO	7.00
+56	5	LA MANSION	8.47
+57	6	HICO MARTINEZ	7.56
+58	6	CENTRO DEL PUEBLO	9.99
+59	6	VALENTIN	4.21
+60	6	MANOLO DAJER	5.36
+61	6	LOS RECIO	6.48
+62	6	HAINA	7.58
+63	6	VISTA ALEGRE	8.00
+64	6	BOCA DE LICEY	8.02
+65	6	EL CAÑO	3.25
+66	7	EL CEMENTERIO	6.36
+67	7	ESPAILLAT	7.88
+68	7	ARRENQUILLO	6.25
+69	7	NUEVA ESPERANZA	5.65
+70	7	LA LOMITA	4.65
+71	7	VIDAL GUILLEN	6.25
+72	7	LAS LAVAS	7.25
+73	7	PALMAREJO	7.80
+74	8	PUÑAL	8.25
+75	8	LOS COSOS	4.26
+76	8	ARENOSO	6.58
+77	8	LOS ALBINOS	7.69
+78	8	LOS GONZALEZ	4.58
+79	8	LOS CABRAL	6.36
+80	8	LOS CERCADILLOS	8.65
+81	8	MATANZAS ADENTRO	9.65
+82	8	MATANZAS AFUERA	8.65
+83	9	LA ARCILLA	5.66
+84	9	LA CORPORACION	8.25
+85	9	BOCA DE BAO	8.45
+86	9	LA FURNIA(LA BOCA)	4.68
+87	9	PALO AMARILLO	5.69
+88	9	SABANETA	6.65
+89	9	TERRERO	7.36
+90	9	LA CAOBA	6.59
+91	9	LA ZANJA	6.33
+92	9	PIEDRA GORDA	9.00
+93	9	YERBA DE CULEBRA	6.37
+95	2	VILLA OLIMPICA	7.35
+\.
+
+
+--
+-- TOC entry 2367 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: sectores_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sectores_id_seq', 5, true);
+
+
+--
+-- TOC entry 2298 (class 0 OID 16458)
+-- Dependencies: 192
+-- Data for Name: segmentos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY segmentos (id, id_sector, id_calle, id_tipo_material, puntaje, descripcion) FROM stdin;
+1	21	1	1	6.35	SEGMENTO DE UBANIZACION LOS REYES
+2	19	1	1	7.36	SEGMENTO LOS CIRUELITOS
+4	21	3	2	7.32	BADEN ESQ.B
+6	21	4	2	6.36	BADEN ESQ.B
+5	21	3	1	6.25	COMPLETA
+7	21	4	1	6.35	COMPLETA
+3	21	2	1	6.25	COMPLETA
+8	21	5	1	6.35	COMPLETA
+9	21	5	2	7.35	BADEN ESQ.C
+10	19	1	2	6.54	BADEN ESQ.H
+11	19	6	1	8.36	COMPLETA
+12	3	7	1	7.36	COMPLETA
+13	3	7	2	6.58	BADEN ESQ.CALLE 6
+14	3	7	2	6.58	BADEN ESQ. CALLE 7
+15	28	8	1	6.86	SEGMENTO EL ENSUEÑO
+16	29	8	2	8.24	SEGMENTO PEKIN
+17	95	8	2	8.65	SEGMENTO VILLA OLIMPICA
+18	17	9	2	6.68	COMPLETA
+19	17	9	2	4.65	BADEN ESQ. AV. ENRIQUILLO
+20	17	10	1	5.70	COMPLETA
+21	17	11	1	5.65	COMPLETA
+22	17	10	2	5.36	BADEN ESQ.AV. ENRIQUILLO
+23	17	11	2	4.36	BADEN ESQ. CALLE LIBERTAD
+\.
+
+
+--
+-- TOC entry 2368 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: segmentos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('segmentos_id_seq', 1, false);
+
+
+--
+-- TOC entry 2300 (class 0 OID 16481)
+-- Dependencies: 194
+-- Data for Name: tipo_bache; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tipo_bache (id, nombre, puntaje) FROM stdin;
+1	GRANDE DESECHABLE	8.00
+2	GRANDE NO DESECHABLE	9.90
+3	MEDIANO DESECHABLE	6.53
+4	MEDIANO NO DESECHABLE	7.50
+5	PEQUEÑO DESECHABLE	4.66
+6	PEQUEÑO NO DESECHABLE	6.65
+\.
+
+
+--
+-- TOC entry 2369 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: tipo_bache_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('tipo_bache_id_seq', 1, false);
+
+
+--
+-- TOC entry 2320 (class 0 OID 16602)
+-- Dependencies: 214
+-- Data for Name: tipo_brigada; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tipo_brigada (id, tipo) FROM stdin;
+1	BRIGADA ESTANDAR ASFALTO
+2	BRIGADA ESTANDAR CONCRETO
+3	BRIGADA ESPECIAL ASFALTO
+4	BRIGADA ESPECIAL CONCRETO
+\.
+
+
+--
+-- TOC entry 2370 (class 0 OID 0)
+-- Dependencies: 213
+-- Name: tipo_brigada_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('tipo_brigada_id_seq', 1, false);
+
+
+--
+-- TOC entry 2294 (class 0 OID 16437)
+-- Dependencies: 188
+-- Data for Name: tipo_calle; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tipo_calle (id, tipo, puntaje) FROM stdin;
+1	AVENIDA	8.80
+2	AUTOPISTA	9.90
+4	CALLE PRINCIPAL	9.25
+5	ELEVADO	9.10
+6	CIRCUNVALACION	9.00
+3	CALLE SECUNDARIA	7.25
+\.
+
+
+--
+-- TOC entry 2371 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: tipo_calle_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('tipo_calle_id_seq', 1, false);
+
+
+--
+-- TOC entry 2310 (class 0 OID 16542)
+-- Dependencies: 204
+-- Data for Name: tipo_equipo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tipo_equipo (id, tipo) FROM stdin;
+1	VEHICULO
+2	HERRAMIENTA
+3	MAQUINARIA
+\.
+
+
+--
+-- TOC entry 2372 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: tipo_equipo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('tipo_equipo_id_seq', 1, false);
+
+
+--
+-- TOC entry 2306 (class 0 OID 16521)
+-- Dependencies: 200
+-- Data for Name: tipo_estado; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tipo_estado (id, tipo) FROM stdin;
+1	PERSONAL
+2	EQUIPOS
+\.
+
+
+--
+-- TOC entry 2373 (class 0 OID 0)
+-- Dependencies: 199
+-- Name: tipo_estado_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('tipo_estado_id_seq', 1, false);
+
+
+--
+-- TOC entry 2292 (class 0 OID 16429)
+-- Dependencies: 186
+-- Data for Name: tipo_material; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tipo_material (id, tipo, puntaje) FROM stdin;
+1	ASFALTO	8.32
+2	CONCRETO	9.50
+\.
+
+
+--
+-- TOC entry 2374 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: tipo_material_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('tipo_material_id_seq', 1, false);
+
+
+--
+-- TOC entry 2318 (class 0 OID 16594)
+-- Dependencies: 212
+-- Data for Name: tipo_recurso; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tipo_recurso (id, tipo) FROM stdin;
+1	PERSONAL
+2	EQUIPO
+\.
+
+
+--
+-- TOC entry 2375 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: tipo_recurso_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('tipo_recurso_id_seq', 1, false);
+
+
+--
+-- TOC entry 2130 (class 2606 OID 16494)
+-- Name: pk_baches; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY baches
+    ADD CONSTRAINT pk_baches PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2150 (class 2606 OID 16615)
+-- Name: pk_brigada; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY brigada
+    ADD CONSTRAINT pk_brigada PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2124 (class 2606 OID 16450)
+-- Name: pk_calle; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY calles
+    ADD CONSTRAINT pk_calle PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2132 (class 2606 OID 16513)
+-- Name: pk_daño; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "daños"
+    ADD CONSTRAINT "pk_daño" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2140 (class 2606 OID 16555)
+-- Name: pk_equipo; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY equipos
+    ADD CONSTRAINT pk_equipo PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2136 (class 2606 OID 16534)
+-- Name: pk_estado; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY estados
+    ADD CONSTRAINT pk_estado PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2116 (class 2606 OID 16413)
+-- Name: pk_municipio; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY municipios
+    ADD CONSTRAINT pk_municipio PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2144 (class 2606 OID 16581)
+-- Name: pk_ocupacion; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY ocupacion
+    ADD CONSTRAINT pk_ocupacion PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2142 (class 2606 OID 16573)
+-- Name: pk_personal; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY personal
+    ADD CONSTRAINT pk_personal PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2152 (class 2606 OID 16628)
+-- Name: pk_recurso_brigada; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY recursos_brigada
+    ADD CONSTRAINT pk_recurso_brigada PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2154 (class 2606 OID 16646)
+-- Name: pk_reparacion; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY asignaciones
+    ADD CONSTRAINT pk_reparacion PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2118 (class 2606 OID 16421)
+-- Name: pk_sector; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sectores
+    ADD CONSTRAINT pk_sector PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2126 (class 2606 OID 16463)
+-- Name: pk_segmento; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY segmentos
+    ADD CONSTRAINT pk_segmento PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2128 (class 2606 OID 16486)
+-- Name: pk_tipo_bache; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tipo_bache
+    ADD CONSTRAINT pk_tipo_bache PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2148 (class 2606 OID 16607)
+-- Name: pk_tipo_brigada; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tipo_brigada
+    ADD CONSTRAINT pk_tipo_brigada PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2122 (class 2606 OID 16442)
+-- Name: pk_tipo_calle; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tipo_calle
+    ADD CONSTRAINT pk_tipo_calle PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2138 (class 2606 OID 16547)
+-- Name: pk_tipo_equipo; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tipo_equipo
+    ADD CONSTRAINT pk_tipo_equipo PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2134 (class 2606 OID 16526)
+-- Name: pk_tipo_estado; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tipo_estado
+    ADD CONSTRAINT pk_tipo_estado PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2120 (class 2606 OID 16434)
+-- Name: pk_tipo_material; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tipo_material
+    ADD CONSTRAINT pk_tipo_material PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2146 (class 2606 OID 16599)
+-- Name: pk_tipo_recurso; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tipo_recurso
+    ADD CONSTRAINT pk_tipo_recurso PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2162 (class 2606 OID 16514)
+-- Name: fk_bache_daño; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "daños"
+    ADD CONSTRAINT "fk_bache_daño" FOREIGN KEY (id_bache) REFERENCES baches(id);
+
+
+--
+-- TOC entry 2172 (class 2606 OID 16652)
+-- Name: fk_bache_reparacion; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY asignaciones
+    ADD CONSTRAINT fk_bache_reparacion FOREIGN KEY (id_bache) REFERENCES baches(id);
+
+
+--
+-- TOC entry 2171 (class 2606 OID 16647)
+-- Name: fk_brigada_reparacion; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY asignaciones
+    ADD CONSTRAINT fk_brigada_reparacion FOREIGN KEY (id_brigada) REFERENCES brigada(id);
+
+
+--
+-- TOC entry 2158 (class 2606 OID 16469)
+-- Name: fk_calle_segmento; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY segmentos
+    ADD CONSTRAINT fk_calle_segmento FOREIGN KEY (id_calle) REFERENCES calles(id);
+
+
+--
+-- TOC entry 2167 (class 2606 OID 16587)
+-- Name: fk_estado_personal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY personal
+    ADD CONSTRAINT fk_estado_personal FOREIGN KEY (id_estado) REFERENCES estados(id);
+
+
+--
+-- TOC entry 2159 (class 2606 OID 16474)
+-- Name: fk_material_segmento; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY segmentos
+    ADD CONSTRAINT fk_material_segmento FOREIGN KEY (id_tipo_material) REFERENCES tipo_material(id);
+
+
+--
+-- TOC entry 2166 (class 2606 OID 16582)
+-- Name: fk_ocupacion_personal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY personal
+    ADD CONSTRAINT fk_ocupacion_personal FOREIGN KEY (id_ocupacion) REFERENCES ocupacion(id);
+
+
+--
+-- TOC entry 2169 (class 2606 OID 16629)
+-- Name: fk_recurso_brigada; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY recursos_brigada
+    ADD CONSTRAINT fk_recurso_brigada FOREIGN KEY (id_brigada) REFERENCES brigada(id);
+
+
+--
+-- TOC entry 2155 (class 2606 OID 16422)
+-- Name: fk_sectores_municipios; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sectores
+    ADD CONSTRAINT fk_sectores_municipios FOREIGN KEY (id_municipio) REFERENCES municipios(id);
+
+
+--
+-- TOC entry 2161 (class 2606 OID 16500)
+-- Name: fk_segmento_bache; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY baches
+    ADD CONSTRAINT fk_segmento_bache FOREIGN KEY (id_segmento) REFERENCES segmentos(id);
+
+
+--
+-- TOC entry 2160 (class 2606 OID 16495)
+-- Name: fk_tipo_bache; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY baches
+    ADD CONSTRAINT fk_tipo_bache FOREIGN KEY (id_tipo_bache) REFERENCES tipo_bache(id);
+
+
+--
+-- TOC entry 2168 (class 2606 OID 16616)
+-- Name: fk_tipo_brigada; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY brigada
+    ADD CONSTRAINT fk_tipo_brigada FOREIGN KEY (id_tipo_brigada) REFERENCES tipo_brigada(id);
+
+
+--
+-- TOC entry 2156 (class 2606 OID 16451)
+-- Name: fk_tipo_calle; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY calles
+    ADD CONSTRAINT fk_tipo_calle FOREIGN KEY (id_tipo_calle) REFERENCES tipo_calle(id);
+
+
+--
+-- TOC entry 2164 (class 2606 OID 16556)
+-- Name: fk_tipo_equipo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY equipos
+    ADD CONSTRAINT fk_tipo_equipo FOREIGN KEY (id_tipo_equipo) REFERENCES tipo_equipo(id);
+
+
+--
+-- TOC entry 2163 (class 2606 OID 16535)
+-- Name: fk_tipo_estado; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY estados
+    ADD CONSTRAINT fk_tipo_estado FOREIGN KEY (id_tipo_estado) REFERENCES tipo_estado(id);
+
+
+--
+-- TOC entry 2170 (class 2606 OID 16634)
+-- Name: fk_tipo_recurso; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY recursos_brigada
+    ADD CONSTRAINT fk_tipo_recurso FOREIGN KEY (id_tipo_recurso) REFERENCES tipo_recurso(id);
+
+
+--
+-- TOC entry 2165 (class 2606 OID 16561)
+-- Name: id_estado_equipo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY equipos
+    ADD CONSTRAINT id_estado_equipo FOREIGN KEY (id_estado) REFERENCES estados(id);
+
+
+--
+-- TOC entry 2157 (class 2606 OID 16464)
+-- Name: pk_sector_segmento; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY segmentos
+    ADD CONSTRAINT pk_sector_segmento FOREIGN KEY (id_sector) REFERENCES sectores(id);
+
+
+--
+-- TOC entry 2333 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2018-12-08 19:37:25
+
+--
+-- PostgreSQL database dump complete
+--
+
